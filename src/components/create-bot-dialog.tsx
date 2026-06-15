@@ -43,7 +43,7 @@ export function CreateBotDialog({ disabled }: { disabled?: boolean }) {
               autoFocus
             />
           </div>
-          {state?.error && (
+          {state && "error" in state && (
             <p className="text-sm text-destructive" role="alert">
               {state.error}
             </p>

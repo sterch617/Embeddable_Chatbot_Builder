@@ -1,10 +1,10 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
 import { KnowledgeTab } from "./knowledge-tab";
 import { PlaygroundTab } from "./playground-tab";
 import { EmbedTab } from "./embed-tab";
+import { SettingsTab } from "./settings-tab";
 import type { DocumentListItem } from "@/lib/knowledge/queries";
 
 export interface BotTabsProps {
@@ -21,15 +21,12 @@ export interface BotTabsProps {
   canUseCustomColors: boolean;
 }
 
-function ComingSoon({ label }: { label: string }) {
-  return (
-    <Card className="border-dashed p-10 text-center text-sm text-muted-foreground">
-      {label}
-    </Card>
-  );
-}
-
-export function BotTabs({ bot, documents, appUrl }: BotTabsProps) {
+export function BotTabs({
+  bot,
+  documents,
+  appUrl,
+  canUseCustomColors,
+}: BotTabsProps) {
   return (
     <Tabs defaultValue={documents.length ? "playground" : "knowledge"}>
       <TabsList>
@@ -45,14 +42,10 @@ export function BotTabs({ bot, documents, appUrl }: BotTabsProps) {
         <KnowledgeTab botId={bot.id} documents={documents} />
       </TabsContent>
       <TabsContent value="embed" className="mt-6">
-        <EmbedTab
-          appUrl={appUrl}
-          publicId={bot.publicId}
-          accentColor={bot.accentColor}
-        />
+        <EmbedTab appUrl={appUrl} publicId={bot.publicId} accentColor={bot.accentColor} />
       </TabsContent>
       <TabsContent value="settings" className="mt-6">
-        <ComingSoon label="Settings — coming up." />
+        <SettingsTab bot={bot} canUseCustomColors={canUseCustomColors} />
       </TabsContent>
     </Tabs>
   );
