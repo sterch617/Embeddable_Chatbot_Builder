@@ -3,6 +3,7 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { KnowledgeTab } from "./knowledge-tab";
+import { PlaygroundTab } from "./playground-tab";
 import type { DocumentListItem } from "@/lib/knowledge/queries";
 
 export interface BotTabsProps {
@@ -36,7 +37,7 @@ export function BotTabs({ bot, documents }: BotTabsProps) {
         <TabsTrigger value="settings">Settings</TabsTrigger>
       </TabsList>
       <TabsContent value="playground" className="mt-6">
-        <ComingSoon label="Chat playground — next step." />
+        <PlaygroundTab bot={bot} />
       </TabsContent>
       <TabsContent value="knowledge" className="mt-6">
         <KnowledgeTab botId={bot.id} documents={documents} />

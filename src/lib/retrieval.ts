@@ -4,12 +4,13 @@
 
 import { eq } from "drizzle-orm";
 import type { DB } from "./db/client";
-import { chunks } from "./db/schema";
+import { chunks, documents } from "./db/schema";
 import { RETRIEVAL_TOP_K } from "./constants";
 
 export interface RetrievedChunk {
   id: string;
   documentId: string;
+  title: string;
   content: string;
   score: number; // cosine similarity in [-1, 1]
 }
@@ -39,16 +40,19 @@ export async function searchChunks(
     .select({
       id: chunks.id,
       documentId: chunks.documentId,
+      title: documents.title,
       content: chunks.content,
       embedding: chunks.embedding,
     })
     .from(chunks)
+    .innerJoin(documents, eq(documents.id, chunks.documentId))
     .where(eq(chunks.botId, botId));
 
   return rows
     .map((r) => ({
       id: r.id,
       documentId: r.documentId,
+      title: r.title,
       content: r.content,
       score: cosineSimilarity(queryEmbedding, r.embedding as number[]),
     }))

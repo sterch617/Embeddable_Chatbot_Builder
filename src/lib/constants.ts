@@ -19,6 +19,9 @@ export const CHUNK_OVERLAP = 150;
 /** How many chunks to retrieve per question for RAG context. */
 export const RETRIEVAL_TOP_K = 6;
 
+/** Minimum cosine similarity for a chunk to count as relevant context. */
+export const MIN_RELEVANCE = 0.25;
+
 /** Session lifetime, in days. */
 export const SESSION_TTL_DAYS = 30;
 
