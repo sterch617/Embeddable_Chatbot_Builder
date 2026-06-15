@@ -15,7 +15,6 @@ type Extractor = (
 // Cache the loaded pipeline on globalThis so Next.js hot-reloads (and repeated
 // imports) reuse the same in-memory model instead of reloading it.
 declare global {
-  // eslint-disable-next-line no-var
   var __ecbExtractor: Promise<Extractor> | undefined;
 }
 

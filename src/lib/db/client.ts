@@ -15,9 +15,7 @@ export type DB = NodePgDatabase<typeof schema>;
 const MIGRATIONS_DIR = path.join(process.cwd(), "src", "lib", "db", "migrations");
 
 declare global {
-  // eslint-disable-next-line no-var
   var __ecbDb: DB | undefined;
-  // eslint-disable-next-line no-var
   var __ecbDbInit: Promise<DB> | undefined;
 }
 
