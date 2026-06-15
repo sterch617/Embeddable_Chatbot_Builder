@@ -35,8 +35,16 @@ async function getExtractor(): Promise<Extractor> {
 export async function embed(texts: string[]): Promise<number[][]> {
   if (texts.length === 0) return [];
   const extractor = await getExtractor();
-  const output = await extractor(texts, { pooling: "mean", normalize: true });
-  return output.tolist();
+
+  // Process in small batches to keep memory bounded on large documents.
+  const BATCH = 32;
+  const vectors: number[][] = [];
+  for (let i = 0; i < texts.length; i += BATCH) {
+    const batch = texts.slice(i, i + BATCH);
+    const output = await extractor(batch, { pooling: "mean", normalize: true });
+    vectors.push(...output.tolist());
+  }
+  return vectors;
 }
 
 /** Embed a single text. */
