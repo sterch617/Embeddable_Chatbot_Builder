@@ -49,7 +49,6 @@ export function buildSystemPrompt(input: AnswerInput): string {
     `You are ${input.botName}, a friendly and concise support assistant.`,
     input.systemPrompt?.trim() ?? "",
     "Answer the user's question using ONLY the context below. If the answer is not in the context, say you don't have that information and suggest contacting a human. Never invent facts.",
-    "Respond directly with the answer — no preamble and no meta-commentary about your reasoning.",
     "",
     "Context:",
     ctx || "(no relevant context found)",
@@ -60,52 +59,11 @@ export function buildSystemPrompt(input: AnswerInput): string {
 
 /** Streams an answer as text chunks. */
 export async function* streamAnswer(input: AnswerInput): AsyncGenerator<string> {
-  if (activeProvider().id === "anthropic") {
-    let produced = false;
-    try {
-      for await (const token of streamAnthropic(input)) {
-        produced = true;
-        yield token;
-      }
-      return;
-    } catch (err) {
-      // If Claude fails before producing any output (bad key, rate limit),
-      // fall back to the grounded mock so the chat never breaks. A mid-stream
-      // failure is re-thrown for the caller to surface.
-      if (produced) throw err;
-      console.error("Anthropic provider failed, using grounded fallback:", err);
-    }
-  }
+  // Real providers plug in here once a key is configured:
+  //   const p = activeProvider();
+  //   if (p.id === "anthropic") return yield* streamAnthropic(input);
+  //   if (p.id === "openai") return yield* streamOpenAI(input);
   yield* streamMock(input);
-}
-
-// --- Anthropic (Claude) provider -----------------------------------------
-
-async function* streamAnthropic(input: AnswerInput): AsyncGenerator<string> {
-  const { default: Anthropic } = await import("@anthropic-ai/sdk");
-  const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
-  const model = process.env.CHAT_MODEL?.trim() || "claude-opus-4-8";
-
-  const messages = [
-    ...input.history.map((m) => ({ role: m.role, content: m.content })),
-    { role: "user" as const, content: input.question },
-  ];
-
-  const stream = client.messages.stream({
-    model,
-    max_tokens: 1024,
-    system: buildSystemPrompt(input),
-    messages,
-  });
-
-  for await (const event of stream) {
-    if (
-      event.type === "content_block_delta" &&
-      event.delta.type === "text_delta"
-    ) {
-      yield event.delta.text;
-    }
-  }
 }
 
 // --- Mock (keyless) extractive answerer ----------------------------------
