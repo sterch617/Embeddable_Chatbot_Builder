@@ -24,10 +24,15 @@ export async function createSession(userId: string): Promise<void> {
   const expiresAt = new Date(Date.now() + SESSION_TTL_DAYS * 24 * 60 * 60 * 1000);
   await db.insert(sessions).values({ id: token, userId, expiresAt });
 
+  // Mark the cookie Secure only when actually served over HTTPS. Browsers drop
+  // Secure cookies on plain HTTP, which would silently break sessions on an
+  // http://IP deployment. Tie it to the public URL scheme instead of NODE_ENV.
+  const secure = (process.env.NEXT_PUBLIC_APP_URL ?? "").startsWith("https://");
+
   const jar = await cookies();
   jar.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure,
     sameSite: "lax",
     path: "/",
     expires: expiresAt,
