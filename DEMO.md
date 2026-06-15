@@ -84,12 +84,33 @@ Go to **Plan & usage** (top nav):
 
 ---
 
-## Suggested 90-second video flow
+## Recording the demo video (~90s)
 
-1. **0:00** Landing page — read the headline, ask the live demo widget a question. (15s)
-2. **0:15** Sign in with the demo account → dashboard → open the Acme bot. (10s)
-3. **0:25** Knowledge tab — show the sources; add one quickly. (15s)
-4. **0:40** Playground — ask a question, highlight the streamed, cited answer; then an off-topic one to show it declines. (20s)
-5. **1:00** Embed tab — copy the snippet, show the live widget bubble on a test page. (15s)
-6. **1:15** Billing — usage meters, run the mock upgrade. (15s)
-7. **1:30** Done.
+Record against the **live deployment** — http://134.122.59.176 — so it's clearly a
+running product (or use `npm run dev` locally). Tool: **Loom** (gives a shareable
+link, perfect to attach to the application) or QuickTime / OBS. Record the browser
+at ~1280×720. Voiceover in **English**; the same lines double as on-screen captions
+if you'd rather not narrate.
+
+**Before you hit record**
+
+- Make sure the demo workspace exists (`npm run seed` if running locally; it's
+  already seeded on the live server).
+- Open the site **logged out** — you'll show the landing + live widget first.
+- Have the demo login ready to paste: `demo@docent.app` / `demodemo123`.
+
+**Shot list** (trim dead air; aim to land under 90s)
+
+| Time | On screen | Voiceover / caption |
+|------|-----------|---------------------|
+| 0:00–0:12 | Landing hero, then scroll to the **live demo widget**; type *"What's your return policy?"* | "Docent turns your help docs into a support agent. This bot is live right on the page — ask it anything, and it answers grounded in real docs, with the source cited." |
+| 0:12–0:22 | Click **Sign in** → paste the demo login → land on the dashboard | "Let's build one. I'll sign in to the demo workspace." |
+| 0:22–0:34 | Open **Acme Support** → **Knowledge** tab → show the sources | "A chatbot's knowledge is just docs — paste text, add a URL, or upload a PDF. It chunks and embeds them, and it's ready." |
+| 0:34–0:54 | **Playground** → ask *"How do I reset my password?"* (watch it stream + citation), then *"What's the capital of France?"* (it declines) | "Answers stream in, grounded, with citations. Ask something off-topic and it declines instead of making things up — exactly how good support should behave." |
+| 0:54–1:06 | **Embed** tab → click copy on the one-line snippet → show the live widget preview / open the bubble | "To add it to any website, copy one script tag. A chat bubble appears in the corner — same bot, same grounded answers." |
+| 1:06–1:20 | **Plan & usage** → show the usage meters → **Upgrade to Pro** → mock checkout → confirm | "Pricing and billing are built in — Free, Pro, Business, with real limits. Here's a mock checkout; no card needed." |
+| 1:20–1:28 | Back to the dashboard or landing | "Docent — your docs, answering customers in seconds. Built with Next.js and deployed live." |
+
+**Tips:** rehearse once; move the cursor deliberately; type the questions live (it
+feels real); keep each shot tight. No voiceover? Turn the right column into short
+on-screen captions and add light background music.
