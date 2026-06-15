@@ -10,8 +10,9 @@ import {
   Check,
 } from "lucide-react";
 import { Logo } from "@/components/brand";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { PlanCard } from "@/components/plan-card";
 import { ChatMockup } from "@/components/marketing/chat-mockup";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -104,13 +105,20 @@ export default async function LandingPage() {
           </nav>
           <div className="flex items-center gap-2">
             {user ? (
-              <Button render={<Link href="/dashboard" />}>Dashboard</Button>
+              <Link href="/dashboard" className={cn(buttonVariants())}>
+                Dashboard
+              </Link>
             ) : (
               <>
-                <Button variant="ghost" render={<Link href="/login" />}>
+                <Link
+                  href="/login"
+                  className={cn(buttonVariants({ variant: "ghost" }))}
+                >
                   Sign in
-                </Button>
-                <Button render={<Link href="/signup" />}>Start free</Button>
+                </Link>
+                <Link href="/signup" className={cn(buttonVariants())}>
+                  Start free
+                </Link>
               </>
             )}
           </div>
@@ -135,12 +143,15 @@ export default async function LandingPage() {
                 on your site. Set it up before lunch.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Button size="lg" render={<Link href="/signup" />}>
+                <Link href="/signup" className={cn(buttonVariants({ size: "lg" }))}>
                   Start free <ArrowRight className="size-4" />
-                </Button>
-                <Button size="lg" variant="outline" render={<Link href="#how" />}>
+                </Link>
+                <Link
+                  href="#how"
+                  className={cn(buttonVariants({ size: "lg", variant: "outline" }))}
+                >
                   See how it works
-                </Button>
+                </Link>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
                 No credit card required. Free plan forever.
@@ -238,15 +249,19 @@ export default async function LandingPage() {
                   key={id}
                   plan={PLANS[id]}
                   cta={
-                    <Button
-                      variant={PLANS[id].highlighted ? "default" : "outline"}
-                      className="w-full"
-                      render={<Link href="/signup" />}
+                    <Link
+                      href="/signup"
+                      className={cn(
+                        buttonVariants({
+                          variant: PLANS[id].highlighted ? "default" : "outline",
+                        }),
+                        "w-full",
+                      )}
                     >
                       {PLANS[id].priceMonthly === 0
                         ? "Start free"
                         : `Choose ${PLANS[id].name}`}
-                    </Button>
+                    </Link>
                   }
                 />
               ))}
@@ -284,9 +299,9 @@ export default async function LandingPage() {
               Spin up your first chatbot in minutes — free, no card required.
             </p>
             <div className="mt-8">
-              <Button size="lg" render={<Link href="/signup" />}>
+              <Link href="/signup" className={cn(buttonVariants({ size: "lg" }))}>
                 Start free <ArrowRight className="size-4" />
-              </Button>
+              </Link>
             </div>
           </div>
         </section>
