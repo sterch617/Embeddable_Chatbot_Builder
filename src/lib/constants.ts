@@ -21,3 +21,10 @@ export const RETRIEVAL_TOP_K = 6;
 
 /** Session lifetime, in days. */
 export const SESSION_TTL_DAYS = 30;
+
+// --- Brand ----------------------------------------------------------------
+export const APP_NAME = "Docent";
+export const APP_TAGLINE =
+  "Turn your help docs into a support agent that answers customers in seconds.";
+export const APP_DESCRIPTION =
+  "Docent reads your help docs, FAQs and guides, then answers your customers 24/7 — in your app and as an embeddable widget on your site.";

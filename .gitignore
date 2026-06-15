@@ -38,6 +38,9 @@ yarn-error.log*
 /.pglite/
 /.cache/
 
+# Claude Code local settings (launch.json is shared intentionally)
+.claude/settings.local.json
+
 # vercel
 .vercel
 
