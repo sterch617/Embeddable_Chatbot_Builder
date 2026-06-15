@@ -1,6 +1,6 @@
 import { and, desc, eq, sql } from "drizzle-orm";
 import type { DB } from "../db/client";
-import { bots, type Bot } from "../db/schema";
+import { bots, users, type Bot } from "../db/schema";
 
 export interface BotListItem {
   id: string;
@@ -49,4 +49,18 @@ export async function getBotByPublicId(
     .where(eq(bots.publicId, publicId))
     .limit(1);
   return bot ?? null;
+}
+
+/** Public lookup for the widget: bot + its owner's plan (for branding/limits). */
+export async function getBotByPublicIdWithOwner(
+  db: DB,
+  publicId: string,
+): Promise<{ bot: Bot; ownerPlan: string } | null> {
+  const [row] = await db
+    .select({ bot: bots, ownerPlan: users.plan })
+    .from(bots)
+    .innerJoin(users, eq(users.id, bots.userId))
+    .where(eq(bots.publicId, publicId))
+    .limit(1);
+  return row ? { bot: row.bot, ownerPlan: row.ownerPlan } : null;
 }

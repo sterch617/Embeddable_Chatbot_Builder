@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { KnowledgeTab } from "./knowledge-tab";
 import { PlaygroundTab } from "./playground-tab";
+import { EmbedTab } from "./embed-tab";
 import type { DocumentListItem } from "@/lib/knowledge/queries";
 
 export interface BotTabsProps {
@@ -16,6 +17,7 @@ export interface BotTabsProps {
     systemPrompt: string | null;
   };
   documents: DocumentListItem[];
+  appUrl: string;
   canUseCustomColors: boolean;
 }
 
@@ -27,7 +29,7 @@ function ComingSoon({ label }: { label: string }) {
   );
 }
 
-export function BotTabs({ bot, documents }: BotTabsProps) {
+export function BotTabs({ bot, documents, appUrl }: BotTabsProps) {
   return (
     <Tabs defaultValue={documents.length ? "playground" : "knowledge"}>
       <TabsList>
@@ -43,7 +45,11 @@ export function BotTabs({ bot, documents }: BotTabsProps) {
         <KnowledgeTab botId={bot.id} documents={documents} />
       </TabsContent>
       <TabsContent value="embed" className="mt-6">
-        <ComingSoon label="Embed snippet — coming up." />
+        <EmbedTab
+          appUrl={appUrl}
+          publicId={bot.publicId}
+          accentColor={bot.accentColor}
+        />
       </TabsContent>
       <TabsContent value="settings" className="mt-6">
         <ComingSoon label="Settings — coming up." />

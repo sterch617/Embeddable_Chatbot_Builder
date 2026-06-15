@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { ChevronLeft, MessagesSquare } from "lucide-react";
 import { requireUser } from "@/lib/auth/session";
@@ -23,6 +24,11 @@ export default async function BotPage({
 
   const documents = await listDocuments(db, bot.id);
   const plan = getPlan(user.plan);
+
+  const hdrs = await headers();
+  const host = hdrs.get("host") ?? "localhost:3000";
+  const proto = host.startsWith("localhost") || host.startsWith("127.") ? "http" : "https";
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL?.trim() || `${proto}://${host}`).replace(/\/$/, "");
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
@@ -60,6 +66,7 @@ export default async function BotPage({
           systemPrompt: bot.systemPrompt,
         }}
         documents={documents}
+        appUrl={appUrl}
         canUseCustomColors={plan.customColors}
       />
     </div>
