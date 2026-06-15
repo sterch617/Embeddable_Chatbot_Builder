@@ -90,6 +90,7 @@ const FAQS = [
 
 export default async function LandingPage() {
   const user = await getCurrentUser();
+  const demoBot = process.env.NEXT_PUBLIC_DEMO_BOT?.trim();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -150,6 +151,26 @@ export default async function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Live demo */}
+        {demoBot && (
+          <section id="demo" className="border-t py-16">
+            <div className="mx-auto max-w-3xl px-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tight">Try it right now</h2>
+              <p className="mt-3 text-muted-foreground">
+                A real {APP_NAME} chatbot trained on a sample help center. Ask it
+                about billing, shipping or returns.
+              </p>
+              <div className="mx-auto mt-8 max-w-md overflow-hidden rounded-2xl border shadow-lg">
+                <iframe
+                  src={`/widget/${demoBot}`}
+                  title="Live demo chatbot"
+                  className="h-[560px] w-full"
+                />
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Features */}
         <section id="features" className="border-t bg-muted/20 py-20">
