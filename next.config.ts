@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
     "@huggingface/transformers",
     "pg",
   ],
+  experimental: {
+    // Allow PDF/file uploads through Server Actions.
+    serverActions: { bodySizeLimit: "12mb" },
+  },
 };
 
 export default nextConfig;
